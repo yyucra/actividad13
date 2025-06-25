@@ -7,10 +7,17 @@ on:
     branches: [ "main" ]
 
 jobs:
+
+  test_code:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test Progrma
+      run: mvn test --file pom.xml
+      
   build_test:
 
     runs-on: ubuntu-latest
-
+    needs: test_code
     steps:
     - name : Checkout repo
       uses: actions/checkout@v3
@@ -20,8 +27,6 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Test Progrma
-      run: mvn test --file pom.xml
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
